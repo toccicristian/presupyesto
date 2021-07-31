@@ -3,7 +3,9 @@ class Producto:
         self._automatizado = bool
         self._producto_url = str()
         self._codigo = str()
+        self._tags = list()
         self._nombre = str()
+        self._descripcion = str()
         self._costo = float()
         self._tipo_de_cambio = float()
         self._existencias = str()
@@ -17,7 +19,9 @@ class Producto:
             self._automatizado = diccionario['_automatizado']
             self._producto_url = diccionario['_producto_url']
             self._codigo = diccionario['_codigo']
+            self._tags = diccionario['_tags']
             self._nombre = diccionario['_nombre']
+            self._descripcion = diccionario['_descripcion']
             self._costo = diccionario['_costo']
             self._tipo_de_cambio = diccionario['_tipo_de_cambio']
             self._existencias = diccionario['_existencias']
@@ -33,8 +37,14 @@ class Producto:
     def get_codigo (self):
         return self._codigo
 
+    def get_tags (self):
+        return self._tags
+
     def get_nombre (self):
         return self._nombre
+
+    def get_descripcion (self):
+        return self._descripcion
 
     def get_costo (self):
         return self._costo
@@ -60,8 +70,20 @@ class Producto:
     def set_codigo (self, codigo=str()):
         self._codigo = codigo
 
+    def add_tag (self, tag=str()):
+        self._tags.append(tag)
+
+    def remove_tag (self, tag=str()):
+        self._tags.remove(tag)
+
+    def clear_tags (self):
+        self._tags.clear()
+
     def set_nombre (self, nombre=str()):
         self._nombre = nombre
+
+    def set_descripcion (self, descripcion=str()):
+        self._descripcion = descripcion
 
     def set_costo (self, costo=float()):
         self._costo = costo
