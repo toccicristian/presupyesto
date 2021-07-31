@@ -23,6 +23,7 @@ def busca_por_nombre(nombre=str()):
             producto = modelos.producto.Producto()
             producto.convierte_dict_a_producto(productos[codigo])
             return producto
+    return False
 
 
 def busca_por_codigo(codigo_ingresado=str()):
@@ -33,3 +34,16 @@ def busca_por_codigo(codigo_ingresado=str()):
             producto = modelos.producto.Producto()
             producto.convierte_dict_a_producto(productos[codigo])
             return producto
+    return False
+
+
+def busca_por_tags(tags_ingresadas=str()):
+    archivo_productos=open(os.path.normpath(configuraciones.constantes.base_de_datos_url))
+    productos=json.load(archivo_productos)
+    resultado=list()
+    for codigo in productos:
+        if set(tags_ingresadas).issubset(set(productos[codigo]['_tags'])):
+            producto_resultado=modelos.producto.Producto()
+            producto_resultado.convierte_dict_a_producto(productos[codigo])
+            resultado.append(producto_resultado)
+    return resultado

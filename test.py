@@ -2,12 +2,12 @@ import repositorios.productos
 import modelos.producto
 
 
-def test_repositorios_productos_salvar():
+def test_generar_db():
     producto = modelos.producto.Producto()
     producto.set_automatizado(False)
     producto.set_producto_url('https://aikencomputacion.com.ar/ry33200-san-justo-cpu-amd-am4-ryzen-3-3200g-c-video.htm')
     producto.set_codigo('0001')
-    producto.add_tag('PROCESADOR')
+    producto.add_tag('PROCESADORES')
     producto.add_tag('AMD')
     producto.add_tag('COMPONENTES')
     producto.set_nombre('CPU AMD AM4 RYZEN 3 3200G C/VIDEO')
@@ -22,7 +22,7 @@ def test_repositorios_productos_salvar():
     producto2.set_automatizado(False)
     producto2.set_producto_url('https://aikencomputacion.com.ar/msia320-san-justo-mother-am4-msi-a320m-pro-vh.htm')
     producto2.set_codigo('0002')
-    producto2.add_tag('MOTHERBOARD')
+    producto2.add_tag('MOTHERBOARDS')
     producto2.add_tag('MSI')
     producto2.add_tag('COMPONENTES')
     producto2.set_nombre('MOTHER AM4 MSI A320M PRO-VH')
@@ -35,9 +35,10 @@ def test_repositorios_productos_salvar():
 
     producto3 = modelos.producto.Producto()
     producto3.set_automatizado(False)
-    producto3.set_producto_url('https://aikencomputacion.com.ar/8g2400f-san-justo-memoria-ddr4-8gb-2400-kingston-hyperx-fury.htm')
+    producto3.set_producto_url(
+        'https://aikencomputacion.com.ar/8g2400f-san-justo-memoria-ddr4-8gb-2400-kingston-hyperx-fury.htm')
     producto3.set_codigo('0003')
-    producto3.add_tag('MEMORIA')
+    producto3.add_tag('MEMORIAS')
     producto3.add_tag('KINGSTON')
     producto3.add_tag('COMPONENTES')
     producto3.set_nombre('MEMORIA DDR4 8GB 2400 KINGSTON HYPERX FURY')
@@ -52,10 +53,13 @@ def test_repositorios_productos_salvar():
     repositorios.productos.salva_producto(producto2)
     repositorios.productos.salva_producto(producto3)
 
+
 def test_repositorios_productos_busca_por_nombre():
-    print('resultado :' + str(repositorios.productos.busca_por_nombre('CPU AMD AM4 RYZEN 3 3200G C/VIDEO').get_nombre()))
+    print(
+        'resultado :' + str(repositorios.productos.busca_por_nombre('CPU AMD AM4 RYZEN 3 3200G C/VIDEO').get_nombre()))
     print('resultado :' + str(repositorios.productos.busca_por_nombre('MOTHER AM4 MSI A320M PRO-VH').get_nombre()))
-    print('resultado :' + str(repositorios.productos.busca_por_nombre('MEMORIA DDR4 8GB 2400 KINGSTON HYPERX FURY').get_nombre()))
+    print('resultado :' + str(
+        repositorios.productos.busca_por_nombre('MEMORIA DDR4 8GB 2400 KINGSTON HYPERX FURY').get_nombre()))
 
 
 def test_repositorios_productos_busca_por_codigo():
@@ -63,6 +67,34 @@ def test_repositorios_productos_busca_por_codigo():
     print('resultado :' + str(repositorios.productos.busca_por_codigo('0002').get_nombre()))
     print('resultado :' + str(repositorios.productos.busca_por_codigo('0003').get_nombre()))
 
-#test_repositorios_productos_salvar()
-#test_repositorios_productos_busca_por_nombre()
-test_repositorios_productos_busca_por_codigo()
+
+def test_repositorios_productos_busca_por_tags():
+    def busqueda_por_tags(tags=list()):
+        print('Tag(s) : ', end='')
+        for tag in tags:
+            print(tag+';', end='')
+        resultados = repositorios.productos.busca_por_tags(tags)
+        if not resultados:
+            print(' : SIN RESULTADOS')
+            return 0
+        print(" ")
+        for producto in resultados:
+            print(producto.get_nombre().ljust(50) + '\t' + str(producto.get_costo()).rjust(15))
+    tags = list()
+    tags.append('COMPONENTES')
+    busqueda_por_tags(tags)
+    tags.append('KINGSTON')
+    busqueda_por_tags(tags)
+    tags.clear()
+    tags.append('COMPONENTOS')
+    busqueda_por_tags(tags)
+    tags.clear()
+    tags.append('MSI')
+    busqueda_por_tags(tags)
+    tags.clear()
+
+
+# test_generar_db()
+# test_repositorios_productos_busca_por_nombre()
+# test_repositorios_productos_busca_por_codigo()
+#test_repositorios_productos_busca_por_tags()
