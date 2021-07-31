@@ -1,6 +1,7 @@
 class Producto:
     def __init__(self):
         self._automatizado = bool
+        self._borrado = bool
         self._producto_url = str()
         self._codigo = str()
         self._tags = list()
@@ -17,6 +18,7 @@ class Producto:
             diccionario = dict()
         if diccionario:
             self._automatizado = diccionario['_automatizado']
+            self._borrado = diccionario['_borrado']
             self._producto_url = diccionario['_producto_url']
             self._codigo = diccionario['_codigo']
             self._tags = diccionario['_tags']
@@ -30,6 +32,9 @@ class Producto:
 
     def get_automatizado (self):
         return self._automatizado
+
+    def get_borrado (self):
+        return self._borrado
 
     def get_producto_url (self):
         return self._producto_url
@@ -63,6 +68,9 @@ class Producto:
 
     def set_automatizado (self, automatizado=bool):
         self._automatizado = automatizado
+
+    def set_borrado (self, borrado=bool):
+        self._borrado = borrado
 
     def set_producto_url (self, producto_url=str()):
         self._producto_url = producto_url

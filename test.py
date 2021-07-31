@@ -5,6 +5,7 @@ import modelos.producto
 def test_generar_db():
     producto = modelos.producto.Producto()
     producto.set_automatizado(False)
+    producto.set_borrado(False)
     producto.set_producto_url('https://aikencomputacion.com.ar/ry33200-san-justo-cpu-amd-am4-ryzen-3-3200g-c-video.htm')
     producto.set_codigo('0001')
     producto.add_tag('PROCESADORES')
@@ -20,6 +21,7 @@ def test_generar_db():
 
     producto2 = modelos.producto.Producto()
     producto2.set_automatizado(False)
+    producto2.set_borrado(False)
     producto2.set_producto_url('https://aikencomputacion.com.ar/msia320-san-justo-mother-am4-msi-a320m-pro-vh.htm')
     producto2.set_codigo('0002')
     producto2.add_tag('MOTHERBOARDS')
@@ -35,6 +37,7 @@ def test_generar_db():
 
     producto3 = modelos.producto.Producto()
     producto3.set_automatizado(False)
+    producto3.set_borrado(False)
     producto3.set_producto_url(
         'https://aikencomputacion.com.ar/8g2400f-san-justo-memoria-ddr4-8gb-2400-kingston-hyperx-fury.htm')
     producto3.set_codigo('0003')
@@ -97,4 +100,4 @@ def test_repositorios_productos_busca_por_tags():
 # test_generar_db()
 # test_repositorios_productos_busca_por_nombre()
 # test_repositorios_productos_busca_por_codigo()
-#test_repositorios_productos_busca_por_tags()
+# test_repositorios_productos_busca_por_tags()
