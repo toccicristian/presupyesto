@@ -8,6 +8,7 @@ class Producto:
         self._nombre = str()
         self._descripcion = str()
         self._costo = float()
+        self._ultima_actualizacion_de_costo = str()
         self._tipo_de_cambio = float()
         self._existencias = str()
         self._urlextra = str()
@@ -25,6 +26,7 @@ class Producto:
             self._nombre = diccionario['_nombre']
             self._descripcion = diccionario['_descripcion']
             self._costo = diccionario['_costo']
+            self._ultima_actualizacion_de_costo = diccionario['_ultima_actualizacion_de_costo']
             self._tipo_de_cambio = diccionario['_tipo_de_cambio']
             self._existencias = diccionario['_existencias']
             self._urlextra = diccionario['_urlextra']
@@ -53,6 +55,9 @@ class Producto:
 
     def get_costo (self):
         return self._costo
+
+    def get_ultima_actualizacion_de_costo(self):
+        return self._ultima_actualizacion_de_costo
 
     def get_tipo_de_cambio (self):
         return self._tipo_de_cambio
@@ -95,6 +100,9 @@ class Producto:
 
     def set_costo (self, costo=float()):
         self._costo = costo
+
+    def set_ultima_actualizacion_de_costo (self, ultima_actualizacion_de_costo=str()):
+        self._ultima_actualizacion_de_costo = ultima_actualizacion_de_costo
 
     def set_tipo_de_cambio (self, tipo_de_cambio=float()):
         self._tipo_de_cambio = tipo_de_cambio
