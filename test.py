@@ -149,8 +149,20 @@ def test_repositorios_productos_busca_por_tags():
     tags.clear()
 
 
+def test_repositorios_elimina_producto():
+    producto_a_eliminar=modelos.producto.Producto()
+    producto_a_eliminar=repositorios.productos.busca_por_nombre('CPU AMD AM4 RYZEN 3 3200G C/VIDEO')
+    repositorios.productos.elimina_producto(producto_a_eliminar)
+    tags = list()
+    tags.append('COMPONENTES')
+    lista_resultados=repositorios.productos.busca_por_tags(tags)
+    for resultado in lista_resultados:
+        print(resultado.get_nombre())
+
+
 # test_generar_db()
 # test_generar_db_autocod()
 # test_repositorios_productos_busca_por_nombre()
 # test_repositorios_productos_busca_por_codigo()
 # test_repositorios_productos_busca_por_tags()
+# test_repositorios_elimina_producto()

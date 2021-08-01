@@ -13,22 +13,36 @@ def salva_producto(producto=modelos.producto.Producto()):
     productos[producto.get_codigo()] = producto.__dict__
     archivo_productos = open(os.path.normpath(configuraciones.constantes.base_de_datos_url), 'w')
     json.dump(productos, archivo_productos)
+    archivo_productos.close()
 
 
 def crea_producto(producto=modelos.producto.Producto()):
     productos = dict()
-    productodict = dict()
     productodict = producto.__dict__
     codigo=configuraciones.constantes.codigo_de_inicio
     if os.path.isfile(os.path.normpath(configuraciones.constantes.base_de_datos_url)):
         archivo_productos = open(os.path.normpath(configuraciones.constantes.base_de_datos_url),'r')
         productos = json.load(archivo_productos)
         archivo_productos.close()
-        codigo=str(len(productos)).zfill(len(configuraciones.constantes.codigo_de_inicio))
+        codigo=str(int(max(productos))+1).zfill(len(configuraciones.constantes.codigo_de_inicio))
     productodict['_codigo']=codigo
     productos[codigo] = productodict
     archivo_productos = open(os.path.normpath(configuraciones.constantes.base_de_datos_url), 'w')
     json.dump(productos, archivo_productos)
+    archivo_productos.close()
+
+
+def elimina_producto(producto_a_eliminar=modelos.producto.Producto()):
+    if os.path.isfile(os.path.normpath(configuraciones.constantes.base_de_datos_url)):
+        archivo_productos = open(os.path.normpath(configuraciones.constantes.base_de_datos_url),'r')
+        productos = json.load(archivo_productos)
+        archivo_productos.close()
+        productos.pop(producto_a_eliminar.get_codigo())
+        archivo_productos=open(os.path.normpath(configuraciones.constantes.base_de_datos_url),'w')
+        json.dump(productos,archivo_productos)
+        archivo_productos.close()
+        return producto_a_eliminar
+    return False
 
 
 def busca_por_nombre(nombre=str()):
