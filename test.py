@@ -127,7 +127,7 @@ def test_repositorios_productos_busca_por_tags():
     def busqueda_por_tags(tags=list()):
         print('Tag(s) : ', end='')
         for tag in tags:
-            print(tag+';', end='')
+            print(tag + ';', end='')
         resultados = repositorios.productos.busca_por_tags(tags)
         if not resultados:
             print(' : SIN RESULTADOS')
@@ -135,6 +135,7 @@ def test_repositorios_productos_busca_por_tags():
         print(" ")
         for producto in resultados:
             print(producto.get_nombre().ljust(50) + '\t' + str(producto.get_costo()).rjust(15))
+
     tags = list()
     tags.append('COMPONENTES')
     busqueda_por_tags(tags)
@@ -150,19 +151,33 @@ def test_repositorios_productos_busca_por_tags():
 
 
 def test_repositorios_elimina_producto():
-    producto_a_eliminar=modelos.producto.Producto()
-    producto_a_eliminar=repositorios.productos.busca_por_nombre('CPU AMD AM4 RYZEN 3 3200G C/VIDEO')
+    producto_a_eliminar = modelos.producto.Producto()
+    producto_a_eliminar = repositorios.productos.busca_por_nombre('CPU AMD AM4 RYZEN 3 3200G C/VIDEO')
     repositorios.productos.elimina_producto(producto_a_eliminar)
     tags = list()
     tags.append('COMPONENTES')
-    lista_resultados=repositorios.productos.busca_por_tags(tags)
+    lista_resultados = repositorios.productos.busca_por_tags(tags)
     for resultado in lista_resultados:
         print(resultado.get_nombre())
 
 
-# test_generar_db()
-# test_generar_db_autocod()
-# test_repositorios_productos_busca_por_nombre()
-# test_repositorios_productos_busca_por_codigo()
-# test_repositorios_productos_busca_por_tags()
-# test_repositorios_elimina_producto()
+def test_repositorios_productos_busca_productos_conteniendo_en_nombre():
+    for producto in repositorios.productos.busca_productos_conteniendo_en_nombre('AM'):
+        print(producto.get_nombre())
+    print('---\n')
+    for producto in repositorios.productos.busca_productos_conteniendo_en_nombre('*'):
+        print(producto.get_nombre())
+
+
+def correr_tests():
+    primera_linea=''
+    # test_generar_db()
+    # test_generar_db_autocod()
+    # test_repositorios_productos_busca_por_nombre()
+    # test_repositorios_productos_busca_por_codigo()
+    # test_repositorios_productos_busca_por_tags()
+    # test_repositorios_elimina_producto()
+    # test_repositorios_productos_busca_productos_conteniendo_en_nombre()
+
+
+correr_tests()
