@@ -47,6 +47,21 @@ def elimina_producto(producto_a_eliminar=modelos.producto.Producto()):
     return False
 
 
+def busca_productos_conteniendo_en_nombre(nombre=str()):
+    archivo_productos = open(os.path.normpath(configuraciones.constantes.base_de_datos_url))
+    productos = json.load(archivo_productos)
+    resultado_lista_de_productos=list()
+    for codigo in productos:
+        producto = modelos.producto.Producto()
+        producto.convierte_dict_a_producto(productos[codigo])
+        resultado_lista_de_productos.append(producto)
+    if nombre != '*':
+        for producto in resultado_lista_de_productos:
+            if nombre not in producto.get_nombre():
+                resultado_lista_de_productos.remove(producto)
+    return resultado_lista_de_productos
+
+
 def busca_por_nombre(nombre=str()):
     archivo_productos = open(os.path.normpath(configuraciones.constantes.base_de_datos_url))
     productos = json.load(archivo_productos)
