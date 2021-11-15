@@ -1,6 +1,6 @@
-import repositorios.repositorioProductos
+import repositorios.productos
 import modelos.producto
-import vistas.uiVentanaPrincipal
+import controladores.ventana_principal
 
 
 def test_generar_db():
@@ -174,8 +174,7 @@ def test_repositorios_productos_busca_productos_conteniendo_en_nombre():
 
 
 def test_vistas_uiVentanaPrincipal():
-    vistas.uiVentanaPrincipal.dibuja()
-
+    controladores.ventana_principal.mostrar()
 
 def correr_tests():
     primera_linea=''
