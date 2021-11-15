@@ -1,5 +1,6 @@
-import repositorios.productos
+import repositorios.repositorioProductos
 import modelos.producto
+import vistas.uiVentanaPrincipal
 
 
 def test_generar_db():
@@ -172,8 +173,13 @@ def test_repositorios_productos_busca_productos_conteniendo_en_nombre():
         print(producto.get_nombre())
 
 
+def test_vistas_uiVentanaPrincipal():
+    vistas.uiVentanaPrincipal.dibuja()
+
+
 def correr_tests():
     primera_linea=''
+    test_vistas_uiVentanaPrincipal()
     # test_generar_db()
     # test_generar_db_autocod()
     # test_repositorios_productos_busca_por_nombre()
