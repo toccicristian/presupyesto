@@ -7,7 +7,12 @@ def dibuja():
     ventana_principal = tkinter.Tk()
     #   AREA PRESUPUESTO:
     marco_superior = tkinter.Frame(width='400', height='300')
-    lista_presupuesto = tkinter.Listbox(marco_superior, width='150', height='20')
+    marco_lista_presupuesto = tkinter.Frame(marco_superior)
+    lista_presupuesto = tkinter.Listbox(marco_lista_presupuesto, width='150', height='20')
+    scrollbar_lista_presupuesto=tkinter.Scrollbar(marco_lista_presupuesto)
+    lista_presupuesto.config(yscrollcommand = scrollbar_lista_presupuesto.set)
+    scrollbar_lista_presupuesto.config(command = lista_presupuesto.yview)
+    boton_generar = tkinter.Button(marco_superior,text='GENERAR')
 
     #   AREA BD:
     marco_inf = tkinter.Frame(width='300', height='300')
@@ -72,7 +77,10 @@ def dibuja():
     boton_quitar_de_base_de_datos = tkinter.Button(marco_inferior_derecho_botones2, width='5', height='2', text='-')
     #   #####################          DIBUJADO DE LOS ELEMENTOS:    ######################
     marco_superior.pack(side='top', fill='x')
-    lista_presupuesto.pack(side='left', padx='10', pady='10')
+    marco_lista_presupuesto.pack(side='left', padx=(10,0),pady=(10,10))
+    lista_presupuesto.pack(side='left', fill = 'both', padx='0', pady='10')
+    scrollbar_lista_presupuesto.pack(side='right', fill = 'both')
+    boton_generar.pack(side='top', padx=(10,10), pady=(10,10))
     marco_inf.pack(side='top', fill='x')
     marco_infizq.pack(side='left', pady=('0', '10'))
     marco_infizq_titulo.pack(side='top', fill='x')
