@@ -1,4 +1,4 @@
-import vistas.uiVentanaPrincipal
+import vistas.ui_ventana_principal
 
 def mostrar ():
-    vistas.uiVentanaPrincipal.dibuja()
+    vistas.ui_ventana_principal.dibuja()
