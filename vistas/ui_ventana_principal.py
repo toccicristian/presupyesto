@@ -28,6 +28,18 @@ def dibuja():
     scrollb_res_busqueda = tk.Scrollbar(marco_inf_iz_res_busqueda, orient='vertical')
     res_busqueda.config(yscrollcommand=scrollb_res_busqueda.set)
     scrollb_res_busqueda.config(command=res_busqueda.yview)
+    #   BD Y PRESUPUESTO- AGREGAR Y QUITAR:
+    marco_inf_cent = tk.Frame(marco_inf, highlightbackground='black', highlightthickness=framew)
+    marco_inf_cent_titulo1 = tk.Frame(marco_inf_cent, highlightbackground='black', highlightthickness=framew)
+    label_presupuestoagregaroquitar = tk.Label(marco_inf_cent_titulo1, text='Presupuesto')
+    marco_inf_cent_botones1 = tk.Frame(marco_inf_cent, highlightbackground='black', highlightthickness=framew)
+    boton_agregar_a_presupuesto = tk.Button(marco_inf_cent_botones1, width='5', height='2', text='+')
+    boton_quitar_de_presupuesto = tk.Button(marco_inf_cent_botones1, width='5', height='2', text='-')
+    marco_inf_cent_titulo2 = tk.Frame(marco_inf_cent, highlightbackground='black', highlightthickness=framew)
+    label_basededatosagregaroquitar = tk.Label(marco_inf_cent_titulo2, text='Base de datos')
+    marco_inf_cent_botones2 = tk.Frame(marco_inf_cent, highlightbackground='black', highlightthickness=framew)
+    boton_agregar_a_base_de_datos = tk.Button(marco_inf_cent_botones2, width='5', height='2', text='+')
+    boton_quitar_de_base_de_datos = tk.Button(marco_inf_cent_botones2, width='5', height='2', text='-')
     #   BD - DETALLES:
     marco_inf_der = tk.Frame(marco_inf, highlightbackground='black', highlightthickness=framew)
     marco_inf_der_titulo = tk.Frame(marco_inf_der, highlightbackground='black', highlightthickness=framew)
@@ -56,18 +68,9 @@ def dibuja():
     detalles_existencias = tk.Entry(marco_inf_der_contenidos_colde, width='40')
     label_url = tk.Label(marco_inf_der_contenidos_coliz, text='URL:')
     detalles_url = tk.Entry(marco_inf_der_contenidos_colde, width='40')
-    #   BD Y PRESUPUESTO- AGREGAR Y QUITAR:
-    marco_inf_cent = tk.Frame(marco_inf, highlightbackground='black', highlightthickness=framew)
-    marco_inf_cent_titulo1 = tk.Frame(marco_inf_cent, highlightbackground='black', highlightthickness=framew)
-    label_presupuestoagregaroquitar = tk.Label(marco_inf_cent_titulo1, text='Presupuesto')
-    marco_inf_cent_botones1 = tk.Frame(marco_inf_cent, highlightbackground='black', highlightthickness=framew)
-    boton_agregar_a_presupuesto = tk.Button(marco_inf_cent_botones1, width='5', height='2', text='+')
-    boton_quitar_de_presupuesto = tk.Button(marco_inf_cent_botones1, width='5', height='2', text='-')
-    marco_inf_cent_titulo2 = tk.Frame(marco_inf_cent, highlightbackground='black', highlightthickness=framew)
-    label_basededatosagregaroquitar = tk.Label(marco_inf_cent_titulo2, text='Base de datos')
-    marco_inf_cent_botones2 = tk.Frame(marco_inf_cent, highlightbackground='black', highlightthickness=framew)
-    boton_agregar_a_base_de_datos = tk.Button(marco_inf_cent_botones2, width='5', height='2', text='+')
-    boton_quitar_de_base_de_datos = tk.Button(marco_inf_cent_botones2, width='5', height='2', text='-')
+    #   BD - PLUGINS Y OPCIONES:
+    marco_opciones = tk.Frame(marco_inf)
+    auto_checkbox = tk.Checkbutton(marco_opciones,text='Auto')
     # endregion
     # region packing-superior
     marco_sup.pack(side='top', fill='x')
@@ -122,5 +125,9 @@ def dibuja():
     scrollb_detalles.pack(side='left', fill='both')
     detalles_existencias.pack(side='top', padx='10')
     detalles_url.pack(side='top', padx='10')
+    # endregion
+    # region packing-opciones
+    marco_opciones.pack(side='left',anchor='n',pady=('20','0'))
+    auto_checkbox.pack(side='top')
     # endregion
     ventana_principal.mainloop()
