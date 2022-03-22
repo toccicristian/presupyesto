@@ -157,8 +157,8 @@ def dibuja():
     # endregion
     ventana_principal.mainloop()
 
-# TODO : HACER QUE LA BUSQUEDA COMPARE TAMBIEN LAS TAGS ADEMAS DE LOS NOMRBES
-# TODO : CREAR BOTON Y FUNCION 'Modif.' PARA BD
+# TODO : CREAR BOTON Y FUNCION 'modif.' PARA BD
+# TODO : CREAR BOTON Y FUNCION "wipe-deleted" PARA BD
 # TODO : CONVERTIR lista_presup en un treeview (investigar)
 # TODO : IMPLEMENTAR SISTEMA DE PLUGINS
 # TODO : (rediseño mayor, plan lejano) CREAR VENTANA ADMINISTRAR BD
