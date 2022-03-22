@@ -2,10 +2,15 @@ import modelos.producto
 import utilidades.es as es
 import datetime
 import repositorios.productos
+import controladores.barra_estado as logueador
 
 
-def agregar_producto(tags,nombre,costo,tipo_de_cambio,descripcion,existencias,url,auto):
+def agregar_producto(barra_estado, tags,nombre,costo,tipo_de_cambio,descripcion,existencias,url,auto):
     if not es.float_o_int(costo.get()) or not es.float_o_int(tipo_de_cambio.get()):
+        logueador.logerror(barra_estado,'Monto no numerico')
+        return False
+    if repositorios.productos.busca_por_nombre(nombre.get()):
+        logueador.logerror(barra_estado, 'Producto ya existe')
         return False
     prod=modelos.producto.Producto()
     prod.set_automatizado(bool(auto.get()))
@@ -22,16 +27,21 @@ def agregar_producto(tags,nombre,costo,tipo_de_cambio,descripcion,existencias,ur
     prod.set_urlextra('url1')
     prod.set_urlextra2('url2')
     repositorios.productos.crea_producto(prod)
+    logueador.log(barra_estado,prod.get_nombre()+' ','AGREGADO')
     return True
 
 
-def quitar_producto(res_busqueda):
+def quitar_producto(barra_estado,res_busqueda):
     if not res_busqueda.curselection():
+        logueador.logerror(barra_estado,'Nada selecc.')
         return False
     prod = repositorios.productos.busca_por_nombre(res_busqueda.get(res_busqueda.curselection()))
     if not prod:
+        logueador.logerror(barra_estado, 'Prod. no existe')
         return False
     if not repositorios.productos.marca_producto_como_eliminado(prod):
+        logueador.logerror(barra_estado, 'No se pudo eliminar')
         return False
     res_busqueda.delete(res_busqueda.curselection())
+    logueador.log(barra_estado,prod.get_nombre()+' ','BORRADO')
     return True
