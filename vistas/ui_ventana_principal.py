@@ -1,6 +1,9 @@
 import tkinter
 import tkinter as tk
 import controladores.botones_basededatos
+import controladores.barra_busqueda
+import controladores.caja_resultados
+
 
 def dibuja():
     # region definiciones
@@ -137,5 +140,10 @@ def dibuja():
     marco_opciones.pack(side='left',anchor='n',pady=('20','0'))
     auto_checkbox.pack(side='top')
     # endregion
-
+    # region bindeos
+    entry_busqueda.bind('<Return>',lambda x: controladores.barra_busqueda.busca(entry_busqueda,res_busqueda))
+    res_busqueda.bind('<<ListboxSelect>>', lambda x: controladores.caja_resultados.presenta_producto(
+        res_busqueda,detalles_tags,detalles_nombre,detalles_costo,detalles_t_cambio,detalles_descripcion,
+        detalles_existencias,detalles_url,auto_var))
+    # endregion
     ventana_principal.mainloop()

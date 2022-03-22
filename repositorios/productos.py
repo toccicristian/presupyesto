@@ -52,13 +52,11 @@ def busca_productos_conteniendo_en_nombre(nombre=str()):
     productos = json.load(archivo_productos)
     resultado_lista_de_productos=list()
     for codigo in productos:
-        producto = modelos.producto.Producto()
+        producto=modelos.producto.Producto()
         producto.convierte_dict_a_producto(productos[codigo])
-        resultado_lista_de_productos.append(producto)
-    if nombre != '*':
-        for producto in resultado_lista_de_productos:
-            if nombre not in producto.get_nombre():
-                resultado_lista_de_productos.remove(producto)
+        if (nombre.upper() in producto.get_nombre().upper() or nombre == '*') and not producto.get_borrado():
+            resultado_lista_de_productos.append(producto)
+        del producto
     return resultado_lista_de_productos
 
 
