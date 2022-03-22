@@ -8,7 +8,13 @@ import controladores.caja_resultados
 def dibuja():
     # region definiciones
     framew = 0
+    ventana_principal_minwidth=1200
     ventana_principal = tk.Tk()
+    ventana_principal.minsize(ventana_principal_minwidth,680)
+
+    marco_inf = tk.Frame(width='300', height='300')
+    marco_inf_cent = tk.Frame(marco_inf, highlightbackground='black', highlightthickness=framew)
+    label_barra_de_estado = tk.Label(bg='#000fff000', text='- ESTADO -', width='165')
 
     #   AREA PRESUPUESTO:
     marco_sup = tk.Frame(width='400', height='300')
@@ -20,7 +26,6 @@ def dibuja():
     boton_generar = tk.Button(marco_sup, text='GENERAR')
 
     #   AREA BD:
-    marco_inf = tk.Frame(width='300', height='300')
     #   BD - BUSQUEDA:
     marco_inf_iz = tk.Frame(marco_inf, width='150', height='300', highlightbackground='black',
                             highlightthickness=framew)
@@ -66,7 +71,6 @@ def dibuja():
     auto_var=tkinter.IntVar()
     auto_checkbox = tk.Checkbutton(marco_opciones,text='Auto',variable=auto_var)
     #   BD Y PRESUPUESTO- AGREGAR Y QUITAR:
-    marco_inf_cent = tk.Frame(marco_inf, highlightbackground='black', highlightthickness=framew)
     marco_inf_cent_titulo1 = tk.Frame(marco_inf_cent, highlightbackground='black', highlightthickness=framew)
     label_presupuestoagregaroquitar = tk.Label(marco_inf_cent_titulo1, text='Presupuesto')
     marco_inf_cent_botones1 = tk.Frame(marco_inf_cent, highlightbackground='black', highlightthickness=framew)
@@ -77,12 +81,13 @@ def dibuja():
     marco_inf_cent_botones2 = tk.Frame(marco_inf_cent, highlightbackground='black', highlightthickness=framew)
     boton_agregar_a_base_de_datos = tk.Button(marco_inf_cent_botones2, width='5', height='2', text='+',
                                               command=lambda: controladores.botones_basededatos.agregar_producto(
-                                                  detalles_tags,detalles_nombre,detalles_costo,detalles_t_cambio,
-                                                  detalles_descripcion,detalles_existencias,detalles_url,auto_var
+                                                  label_barra_de_estado,detalles_tags,detalles_nombre,detalles_costo,
+                                                  detalles_t_cambio,detalles_descripcion,detalles_existencias,
+                                                  detalles_url,auto_var
                                               ))
     boton_quitar_de_base_de_datos = tk.Button(marco_inf_cent_botones2, width='5', height='2', text='-',
                                               command=lambda: controladores.botones_basededatos.quitar_producto(
-                                                  res_busqueda
+                                                  label_barra_de_estado,res_busqueda
                                               ))
     # endregion
     # region packing-superior
@@ -126,7 +131,7 @@ def dibuja():
     label_costo.pack(side='top', anchor='w', padx='10')
     label_t_cambio.pack(side='top', anchor='w', padx='10')
     label_descripcion.pack(side='top', anchor='w', padx='10', pady=('15', '10'))
-    label_existencias.pack(side='top', anchor='w', padx='10')
+    label_existencias.pack(side='top', anchor='w', padx='10',pady=('12','0'))
     label_url.pack(side='top', anchor='w', padx='10')
     marco_inf_der_contenidos_colde.pack(side='left')
     detalles_tags.pack(side='top', padx='10')
@@ -143,6 +148,7 @@ def dibuja():
     marco_opciones.pack(side='left',anchor='n',pady=('20','0'))
     auto_checkbox.pack(side='top')
     # endregion
+    label_barra_de_estado.pack(side='top', pady=('5', '0'))
     # region bindeos
     entry_busqueda.bind('<Return>',lambda x: controladores.barra_busqueda.busca(entry_busqueda,res_busqueda))
     res_busqueda.bind('<<ListboxSelect>>', lambda x: controladores.caja_resultados.presenta_producto(
@@ -151,4 +157,9 @@ def dibuja():
     # endregion
     ventana_principal.mainloop()
 
-# TODO : darle un output avisando que se agrego a la bd el item. Puede ser un label bajo los botones -/+
+# TODO : HACER QUE LA BUSQUEDA COMPARE TAMBIEN LAS TAGS ADEMAS DE LOS NOMRBES
+# TODO : CREAR BOTON Y FUNCION 'Modif.' PARA BD
+# TODO : CONVERTIR lista_presup en un treeview (investigar)
+# TODO : IMPLEMENTAR SISTEMA DE PLUGINS
+# TODO : (rediseño mayor, plan lejano) CREAR VENTANA ADMINISTRAR BD
+
