@@ -25,7 +25,7 @@ def crea_producto(producto=modelos.producto.Producto()):
         productos = json.load(archivo_productos)
         archivo_productos.close()
         codigo=str(int(max(productos))+1).zfill(len(configuraciones.constantes.codigo_de_inicio))
-        if int(codigo) > int(9*len(configuraciones.constantes.codigo_de_inicio)):
+        if int(codigo) > int('9'*len(configuraciones.constantes.codigo_de_inicio)):
             return False
     productodict['_codigo']=codigo
     productos[codigo] = productodict
