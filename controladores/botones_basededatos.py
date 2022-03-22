@@ -25,10 +25,13 @@ def agregar_producto(tags,nombre,costo,tipo_de_cambio,descripcion,existencias,ur
     return True
 
 
-def quitar_producto(cod=str()):
-    prod=repositorios.productos.busca_por_codigo(cod)
+def quitar_producto(res_busqueda):
+    if not res_busqueda.curselection():
+        return False
+    prod = repositorios.productos.busca_por_nombre(res_busqueda.get(res_busqueda.curselection()))
     if not prod:
         return False
-    if not repositorios.productos.elimina_producto(prod):
+    if not repositorios.productos.marca_producto_como_eliminado(prod):
         return False
+    res_busqueda.delete(res_busqueda.curselection())
     return True

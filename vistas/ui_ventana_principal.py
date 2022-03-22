@@ -80,7 +80,10 @@ def dibuja():
                                                   detalles_tags,detalles_nombre,detalles_costo,detalles_t_cambio,
                                                   detalles_descripcion,detalles_existencias,detalles_url,auto_var
                                               ))
-    boton_quitar_de_base_de_datos = tk.Button(marco_inf_cent_botones2, width='5', height='2', text='-')
+    boton_quitar_de_base_de_datos = tk.Button(marco_inf_cent_botones2, width='5', height='2', text='-',
+                                              command=lambda: controladores.botones_basededatos.quitar_producto(
+                                                  res_busqueda
+                                              ))
     # endregion
     # region packing-superior
     marco_sup.pack(side='top', fill='x')
@@ -147,3 +150,5 @@ def dibuja():
         detalles_existencias,detalles_url,auto_var))
     # endregion
     ventana_principal.mainloop()
+
+# TODO : darle un output avisando que se agrego a la bd el item. Puede ser un label bajo los botones -/+

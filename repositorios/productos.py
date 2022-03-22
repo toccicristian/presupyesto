@@ -47,6 +47,20 @@ def elimina_producto(producto_a_eliminar=modelos.producto.Producto()):
     return False
 
 
+def marca_producto_como_eliminado(producto_a_marcar=modelos.producto.Producto()):
+    producto_a_marcar.set_borrado(True)
+    if os.path.isfile(os.path.normpath(configuraciones.constantes.base_de_datos_url)):
+        archivo_productos = open(os.path.normpath(configuraciones.constantes.base_de_datos_url),'r')
+        productos = json.load(archivo_productos)
+        archivo_productos.close()
+        productos[producto_a_marcar.get_codigo()]=producto_a_marcar.__dict__
+        archivo_productos = open(os.path.normpath(configuraciones.constantes.base_de_datos_url), 'w')
+        json.dump(productos, archivo_productos)
+        archivo_productos.close()
+        return True
+    return False
+
+
 def busca_productos_conteniendo_en_nombre(nombre=str()):
     archivo_productos = open(os.path.normpath(configuraciones.constantes.base_de_datos_url))
     productos = json.load(archivo_productos)
