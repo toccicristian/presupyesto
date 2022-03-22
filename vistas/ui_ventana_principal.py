@@ -1,4 +1,8 @@
+import tkinter
 import tkinter as tk
+import controladores.botones_basededatos
+import controladores.barra_busqueda
+import controladores.caja_resultados
 
 
 def dibuja():
@@ -28,18 +32,7 @@ def dibuja():
     scrollb_res_busqueda = tk.Scrollbar(marco_inf_iz_res_busqueda, orient='vertical')
     res_busqueda.config(yscrollcommand=scrollb_res_busqueda.set)
     scrollb_res_busqueda.config(command=res_busqueda.yview)
-    #   BD Y PRESUPUESTO- AGREGAR Y QUITAR:
-    marco_inf_cent = tk.Frame(marco_inf, highlightbackground='black', highlightthickness=framew)
-    marco_inf_cent_titulo1 = tk.Frame(marco_inf_cent, highlightbackground='black', highlightthickness=framew)
-    label_presupuestoagregaroquitar = tk.Label(marco_inf_cent_titulo1, text='Presupuesto')
-    marco_inf_cent_botones1 = tk.Frame(marco_inf_cent, highlightbackground='black', highlightthickness=framew)
-    boton_agregar_a_presupuesto = tk.Button(marco_inf_cent_botones1, width='5', height='2', text='+')
-    boton_quitar_de_presupuesto = tk.Button(marco_inf_cent_botones1, width='5', height='2', text='-')
-    marco_inf_cent_titulo2 = tk.Frame(marco_inf_cent, highlightbackground='black', highlightthickness=framew)
-    label_basededatosagregaroquitar = tk.Label(marco_inf_cent_titulo2, text='Base de datos')
-    marco_inf_cent_botones2 = tk.Frame(marco_inf_cent, highlightbackground='black', highlightthickness=framew)
-    boton_agregar_a_base_de_datos = tk.Button(marco_inf_cent_botones2, width='5', height='2', text='+')
-    boton_quitar_de_base_de_datos = tk.Button(marco_inf_cent_botones2, width='5', height='2', text='-')
+
     #   BD - DETALLES:
     marco_inf_der = tk.Frame(marco_inf, highlightbackground='black', highlightthickness=framew)
     marco_inf_der_titulo = tk.Frame(marco_inf_der, highlightbackground='black', highlightthickness=framew)
@@ -70,7 +63,27 @@ def dibuja():
     detalles_url = tk.Entry(marco_inf_der_contenidos_colde, width='40')
     #   BD - PLUGINS Y OPCIONES:
     marco_opciones = tk.Frame(marco_inf)
-    auto_checkbox = tk.Checkbutton(marco_opciones,text='Auto')
+    auto_var=tkinter.IntVar()
+    auto_checkbox = tk.Checkbutton(marco_opciones,text='Auto',variable=auto_var)
+    #   BD Y PRESUPUESTO- AGREGAR Y QUITAR:
+    marco_inf_cent = tk.Frame(marco_inf, highlightbackground='black', highlightthickness=framew)
+    marco_inf_cent_titulo1 = tk.Frame(marco_inf_cent, highlightbackground='black', highlightthickness=framew)
+    label_presupuestoagregaroquitar = tk.Label(marco_inf_cent_titulo1, text='Presupuesto')
+    marco_inf_cent_botones1 = tk.Frame(marco_inf_cent, highlightbackground='black', highlightthickness=framew)
+    boton_agregar_a_presupuesto = tk.Button(marco_inf_cent_botones1, width='5', height='2', text='+')
+    boton_quitar_de_presupuesto = tk.Button(marco_inf_cent_botones1, width='5', height='2', text='-')
+    marco_inf_cent_titulo2 = tk.Frame(marco_inf_cent, highlightbackground='black', highlightthickness=framew)
+    label_basededatosagregaroquitar = tk.Label(marco_inf_cent_titulo2, text='Base de datos')
+    marco_inf_cent_botones2 = tk.Frame(marco_inf_cent, highlightbackground='black', highlightthickness=framew)
+    boton_agregar_a_base_de_datos = tk.Button(marco_inf_cent_botones2, width='5', height='2', text='+',
+                                              command=lambda: controladores.botones_basededatos.agregar_producto(
+                                                  detalles_tags,detalles_nombre,detalles_costo,detalles_t_cambio,
+                                                  detalles_descripcion,detalles_existencias,detalles_url,auto_var
+                                              ))
+    boton_quitar_de_base_de_datos = tk.Button(marco_inf_cent_botones2, width='5', height='2', text='-',
+                                              command=lambda: controladores.botones_basededatos.quitar_producto(
+                                                  res_busqueda
+                                              ))
     # endregion
     # region packing-superior
     marco_sup.pack(side='top', fill='x')
@@ -130,4 +143,12 @@ def dibuja():
     marco_opciones.pack(side='left',anchor='n',pady=('20','0'))
     auto_checkbox.pack(side='top')
     # endregion
+    # region bindeos
+    entry_busqueda.bind('<Return>',lambda x: controladores.barra_busqueda.busca(entry_busqueda,res_busqueda))
+    res_busqueda.bind('<<ListboxSelect>>', lambda x: controladores.caja_resultados.presenta_producto(
+        res_busqueda,detalles_tags,detalles_nombre,detalles_costo,detalles_t_cambio,detalles_descripcion,
+        detalles_existencias,detalles_url,auto_var))
+    # endregion
     ventana_principal.mainloop()
+
+# TODO : darle un output avisando que se agrego a la bd el item. Puede ser un label bajo los botones -/+

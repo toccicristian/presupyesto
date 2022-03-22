@@ -176,11 +176,18 @@ def test_repositorios_productos_busca_productos_conteniendo_en_nombre():
 def test_vistas_uiVentanaPrincipal():
     controladores.ventana_principal.mostrar()
 
+
+def test_imprime_todos_los_productos_en_base_de_datos():
+    for producto in repositorios.productos.busca_productos_conteniendo_en_nombre('*'):
+        print(producto.get_nombre())
+
+
 def correr_tests():
     primera_linea=''
-    test_vistas_uiVentanaPrincipal()
+    test_imprime_todos_los_productos_en_base_de_datos()
+    # test_vistas_uiVentanaPrincipal()
     # test_generar_db()
-    # test_generar_db_autocod()
+    #test_generar_db_autocod()
     # test_repositorios_productos_busca_por_nombre()
     # test_repositorios_productos_busca_por_codigo()
     # test_repositorios_productos_busca_por_tags()
