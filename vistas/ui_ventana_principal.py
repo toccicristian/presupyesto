@@ -33,7 +33,7 @@ def dibuja():
     label_busqueda = tk.Label(marco_inf_iz_titulo, text='Búsqueda :')
     entry_busqueda = tk.Entry(marco_inf_iz, width='60')
     marco_inf_iz_res_busqueda = tk.Frame(marco_inf_iz, highlightbackground='black', highlightthickness=framew)
-    res_busqueda = tk.Listbox(marco_inf_iz_res_busqueda, width='60')
+    res_busqueda = tk.Listbox(marco_inf_iz_res_busqueda, width='60',exportselection=False)
     scrollb_res_busqueda = tk.Scrollbar(marco_inf_iz_res_busqueda, orient='vertical')
     res_busqueda.config(yscrollcommand=scrollb_res_busqueda.set)
     scrollb_res_busqueda.config(command=res_busqueda.yview)
@@ -79,16 +79,22 @@ def dibuja():
     marco_inf_cent_titulo2 = tk.Frame(marco_inf_cent, highlightbackground='black', highlightthickness=framew)
     label_basededatosagregaroquitar = tk.Label(marco_inf_cent_titulo2, text='Base de datos')
     marco_inf_cent_botones2 = tk.Frame(marco_inf_cent, highlightbackground='black', highlightthickness=framew)
-    boton_agregar_a_base_de_datos = tk.Button(marco_inf_cent_botones2, width='5', height='2', text='+',
+    boton_agregar_a_base_de_datos = tk.Button(marco_inf_cent_botones2, width='3', height='2', text='+',
                                               command=lambda: controladores.botones_basededatos.agregar_producto(
                                                   label_barra_de_estado,detalles_tags,detalles_nombre,detalles_costo,
                                                   detalles_t_cambio,detalles_descripcion,detalles_existencias,
-                                                  detalles_url,auto_var
+                                                  detalles_url,auto_var,res_busqueda
                                               ))
-    boton_quitar_de_base_de_datos = tk.Button(marco_inf_cent_botones2, width='5', height='2', text='-',
+    boton_quitar_de_base_de_datos = tk.Button(marco_inf_cent_botones2, width='3', height='2', text='-',
                                               command=lambda: controladores.botones_basededatos.quitar_producto(
                                                   label_barra_de_estado,res_busqueda
                                               ))
+    boton_modificar_de_base_de_datos = tk.Button(marco_inf_cent_botones2, width='3', height='2', text='<',
+                                                 command=lambda: controladores.botones_basededatos.modificar_producto(
+                                                     label_barra_de_estado, res_busqueda,detalles_tags, detalles_nombre,
+                                                     detalles_costo, detalles_t_cambio,detalles_descripcion,
+                                                     detalles_existencias, detalles_url, auto_var
+                                                 ))
     # endregion
     # region packing-superior
     marco_sup.pack(side='top', fill='x')
@@ -118,6 +124,7 @@ def dibuja():
     label_basededatosagregaroquitar.pack(side='left')
     marco_inf_cent_botones2.pack(side='top')
     boton_quitar_de_base_de_datos.pack(side='left')
+    boton_modificar_de_base_de_datos.pack(side='left')
     boton_agregar_a_base_de_datos.pack(side='left')
     # endregion
     # region packing-inf-der
@@ -157,7 +164,8 @@ def dibuja():
     # endregion
     ventana_principal.mainloop()
 
-# TODO : CREAR BOTON Y FUNCION 'modif.' PARA BD
+
+# TODO : CREAR UTILIDAD QUE EMPAQUETA LOS DETALLES EN LA UI
 # TODO : CREAR BOTON Y FUNCION "wipe-deleted" PARA BD
 # TODO : CONVERTIR lista_presup en un treeview (investigar)
 # TODO : IMPLEMENTAR SISTEMA DE PLUGINS
