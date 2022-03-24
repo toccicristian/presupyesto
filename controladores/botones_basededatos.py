@@ -4,6 +4,7 @@ import modelos.producto
 import utilidades.es as es
 import datetime
 import repositorios.productos
+import controladores.caja_resultados
 import controladores.barra_estado as logueador
 
 
@@ -28,13 +29,16 @@ def agregar_producto(barra_estado, tags,nombre,costo,tipo_de_cambio,descripcion,
     prod.set_existencias(str(existencias.get()).upper())
     prod.set_urlextra('url1')
     prod.set_urlextra2('url2')
-    repositorios.productos.crea_producto(prod)
+    if not (repositorios.productos.crea_producto(prod)):
+        logueador.logerror(barra_estado,'BASE DE DATOS LLENA. NO SE PUDO AGREGAR '+str(prod.get_nombre()))
     res_busqueda.insert('end',prod.get_nombre())
     logueador.log(barra_estado,prod.get_nombre()+' ','AGREGADO')
     return True
 
 
-def quitar_producto(barra_estado,res_busqueda):
+def quitar_producto(barra_estado,detalles_tags,detalles_nombre,detalles_costo,
+                    detalles_t_cambio,detalles_descripcion,detalles_existencias,
+                    detalles_url,auto_var,res_busqueda):
     if not res_busqueda.curselection():
         logueador.logerror(barra_estado,'Nada selecc.')
         return False
@@ -53,6 +57,9 @@ def quitar_producto(barra_estado,res_busqueda):
         res_busqueda.selection_set(res_busqueda.size()-1)
     res_busqueda.see('end')
     logueador.log(barra_estado,prod.get_nombre()+' ','BORRADO')
+    controladores.caja_resultados.presenta_producto(res_busqueda,detalles_tags,detalles_nombre,
+                                                    detalles_costo,detalles_t_cambio,detalles_descripcion,
+                                                    detalles_existencias,detalles_url,auto_var)
     return True
 
 

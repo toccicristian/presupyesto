@@ -87,7 +87,9 @@ def dibuja():
                                               ))
     boton_quitar_de_base_de_datos = tk.Button(marco_inf_cent_botones2, width='3', height='2', text='-',
                                               command=lambda: controladores.botones_basededatos.quitar_producto(
-                                                  label_barra_de_estado,res_busqueda
+                                                  label_barra_de_estado,detalles_tags,detalles_nombre,detalles_costo,
+                                                  detalles_t_cambio,detalles_descripcion,detalles_existencias,
+                                                  detalles_url,auto_var,res_busqueda
                                               ))
     boton_modificar_de_base_de_datos = tk.Button(marco_inf_cent_botones2, width='3', height='2', text='<',
                                                  command=lambda: controladores.botones_basededatos.modificar_producto(
@@ -165,9 +167,7 @@ def dibuja():
     ventana_principal.mainloop()
 
 
-# TODO : CREAR UTILIDAD QUE EMPAQUETA LOS DETALLES EN LA UI
 # TODO : CREAR BOTON Y FUNCION "wipe-deleted" PARA BD
 # TODO : CONVERTIR lista_presup en un treeview (investigar)
 # TODO : IMPLEMENTAR SISTEMA DE PLUGINS
 # TODO : (rediseño mayor, plan lejano) CREAR VENTANA ADMINISTRAR BD
-
