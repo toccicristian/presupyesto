@@ -102,3 +102,8 @@ def modificar_producto(barra_estado,res_busqueda,
     res_busqueda.insert(old_selection[0],prod.get_nombre())
     res_busqueda.selection_set(old_selection[0])
     logueador.log(barra_estado,'Producto:'+str(prod.get_codigo())+':'+prod_selec.get_nombre()+': MODIFICADO')
+
+
+def barrer_borrados(barra_estado):
+    repositorios.productos.barrer_borrados()
+    logueador.log(barra_estado,'REGISTROS BORRADOS QUITADOS DE BD. REINICIALIZADOS LOS CODIGOS DE PRODUCTO.')
