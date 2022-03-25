@@ -97,13 +97,16 @@ def dibuja():
                                                      detalles_costo, detalles_t_cambio,detalles_descripcion,
                                                      detalles_existencias, detalles_url, auto_var
                                                  ))
+    boton_barrer_borrados = tk.Button(marco_inf_cent, width='15',height='1', text='barrer borrados...',
+                                      command=lambda: controladores.botones_basededatos.barrer_borrados(
+                                          label_barra_de_estado))
     # endregion
     # region packing-superior
     marco_sup.pack(side='top', fill='x')
     marco_lista_presup.pack(side='left', padx=(10, 0), pady=(10, 10))
-    lista_presup.pack(side='left', fill='both', padx='0', pady='10')
+    lista_presup.pack(side='left', fill='both', padx='0', pady=('0','0'))
     scrollbar_lista_presup.pack(side='right', fill='both')
-    boton_generar.pack(side='top', padx=(10, 10), pady=(10, 10))
+    boton_generar.pack(side='top', padx=(10, 10), pady=(25, 10))
     # endregion
     marco_inf.pack(side='top', fill='x')
     # region packing-inf-izq
@@ -119,15 +122,16 @@ def dibuja():
     marco_inf_cent.pack(side='left', padx=('40','40'),pady=('0', '20'))
     marco_inf_cent_titulo1.pack(side='top')
     label_presupuestoagregaroquitar.pack(side='left')
-    marco_inf_cent_botones1.pack(side='top', pady=('0', '50'))
+    marco_inf_cent_botones1.pack(side='top', pady=('0', '20'))
     boton_quitar_de_presupuesto.pack(side='left')
     boton_agregar_a_presupuesto.pack(side='left')
-    marco_inf_cent_titulo2.pack(side='top', pady=('50', '0'))
+    marco_inf_cent_titulo2.pack(side='top', pady=('20', '0'))
     label_basededatosagregaroquitar.pack(side='left')
     marco_inf_cent_botones2.pack(side='top')
     boton_quitar_de_base_de_datos.pack(side='left')
     boton_modificar_de_base_de_datos.pack(side='left')
     boton_agregar_a_base_de_datos.pack(side='left')
+    boton_barrer_borrados.pack(side='top',pady=('20','0'))
     # endregion
     # region packing-inf-der
     marco_inf_der.pack(side='left', fill='y', padx=('0','0'), pady=('0', '10'))
@@ -166,8 +170,6 @@ def dibuja():
     # endregion
     ventana_principal.mainloop()
 
-
-# TODO : CREAR BOTON Y FUNCION "wipe-deleted" PARA BD
 # TODO : CONVERTIR lista_presup en un treeview (investigar)
 # TODO : IMPLEMENTAR SISTEMA DE PLUGINS
 # TODO : (rediseño mayor, plan lejano) CREAR VENTANA ADMINISTRAR BD

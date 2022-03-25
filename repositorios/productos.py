@@ -71,7 +71,6 @@ def busca_productos_por_tag_y_conteniendo_en_nombre(cadena=str()):
         if (cadena.upper() in producto.get_nombre().upper() or cadena == '*'
         or all(elem in producto.get_tags() for elem in cadena.upper().split(','))
         ) and not producto.get_borrado():
-            #or cadena.upper() in producto.get_tags()) and not producto.get_borrado():
             resultado_lista_de_productos.append(producto)
         del producto
     return resultado_lista_de_productos
@@ -122,3 +121,27 @@ def busca_por_tags(tags_ingresadas=str()):
             producto_resultado.convierte_dict_a_producto(productos[codigo])
             resultado.append(producto_resultado)
     return resultado
+
+
+def barrer_borrados():
+    productos_nueva=dict()
+    if os.path.isfile(os.path.normpath(configuraciones.constantes.base_de_datos_url)):
+        archivo_productos = open(os.path.normpath(configuraciones.constantes.base_de_datos_url), 'r')
+        productos_dict = json.load(archivo_productos)
+        archivo_productos.close()
+        cod=configuraciones.constantes.codigo_de_inicio
+        for n_producto in productos_dict:
+            prod=modelos.producto.Producto()
+            prod.convierte_dict_a_producto(productos_dict[n_producto])
+            if not prod.get_borrado():
+                prod.set_codigo(cod)
+                productos_nueva[cod]=prod.__dict__
+                cod = str(int(cod)+1).zfill(len(configuraciones.constantes.codigo_de_inicio))
+            del prod
+    archivo_productos = open(os.path.normpath(configuraciones.constantes.base_de_datos_url), 'w')
+    if productos_nueva:
+        json.dump(productos_nueva,archivo_productos)
+    archivo_productos.close()
+
+
+
