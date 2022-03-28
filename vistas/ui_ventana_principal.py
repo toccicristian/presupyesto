@@ -1,4 +1,5 @@
 import tkinter
+from tkinter import ttk
 import tkinter as tk
 import controladores.botones_basededatos
 import controladores.barra_busqueda
@@ -19,10 +20,20 @@ def dibuja():
     #   AREA PRESUPUESTO:
     marco_sup = tk.Frame(width='400', height='300')
     marco_lista_presup = tk.Frame(marco_sup)
-    lista_presup = tk.Listbox(marco_lista_presup, width='150', height='20')
-    scrollbar_lista_presup = tk.Scrollbar(marco_lista_presup)
-    lista_presup.config(yscrollcommand=scrollbar_lista_presup.set)
-    scrollbar_lista_presup.config(command=lista_presup.yview)
+    # lista_presup = tk.Listbox(marco_lista_presup, width='150', height='20')
+    # scrollbar_lista_presup = tk.Scrollbar(marco_lista_presup)
+    # lista_presup.config(yscrollcommand=scrollbar_lista_presup.set)
+    # scrollbar_lista_presup.config(command=lista_presup.yview)
+    # implementando treeview
+    tview_presup = ttk.Treeview(marco_lista_presup, height=17,column=('c1', 'c2'), show='headings')
+    tview_presup.column('# 1', anchor=tk.W, stretch=tk.YES, width='900')
+    tview_presup.heading('# 1', text='Producto')
+    tview_presup.column('# 2', anchor=tk.W, stretch=tk.YES, width='200')
+    tview_presup.heading('#2', text='Costo')
+    scrollb_presup = tk.Scrollbar(marco_lista_presup, orient='vertical')
+    tview_presup.config(yscrollcommand=scrollb_presup.set)
+    scrollb_presup.config(command=tview_presup.yview)
+
     boton_generar = tk.Button(marco_sup, text='GENERAR')
 
     #   AREA BD:
@@ -104,8 +115,10 @@ def dibuja():
     # region packing-superior
     marco_sup.pack(side='top', fill='x')
     marco_lista_presup.pack(side='left', padx=(10, 0), pady=(10, 10))
-    lista_presup.pack(side='left', fill='both', padx='0', pady=('0','0'))
-    scrollbar_lista_presup.pack(side='right', fill='both')
+    # lista_presup.pack(side='left', fill='both', padx='0', pady=('0','0'))
+    # scrollbar_lista_presup.pack(side='right', fill='both')
+    tview_presup.pack(side='left', fill='both', padx='0', pady=('0','0'))
+    scrollb_presup.pack(side='right', fill='both')
     boton_generar.pack(side='top', padx=(10, 10), pady=(25, 10))
     # endregion
     marco_inf.pack(side='top', fill='x')
