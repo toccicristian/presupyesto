@@ -17,21 +17,21 @@ def salva_producto(producto=modelos.producto.Producto()):
 
 
 def crea_producto(producto=modelos.producto.Producto()):
-    productos = dict()
     productodict = producto.__dict__
-    codigo=configuraciones.constantes.codigo_de_inicio
-    if os.path.isfile(os.path.normpath(configuraciones.constantes.base_de_datos_url)):
-        archivo_productos = open(os.path.normpath(configuraciones.constantes.base_de_datos_url),'r')
-        productos = json.load(archivo_productos)
-        archivo_productos.close()
-        codigo=str(int(max(productos))+1).zfill(len(configuraciones.constantes.codigo_de_inicio))
-        if int(codigo) > int('9'*len(configuraciones.constantes.codigo_de_inicio)):
-            return False
+    if not os.path.isfile(os.path.normpath(configuraciones.constantes.base_de_datos_url)):
+        return False
+    archivo_productos = open(os.path.normpath(configuraciones.constantes.base_de_datos_url),'r')
+    productos = json.load(archivo_productos)
+    archivo_productos.close()
+    codigo=str(int(max(productos))+1).zfill(len(configuraciones.constantes.codigo_de_inicio))
+    if int(codigo) > int('9'*len(configuraciones.constantes.codigo_de_inicio)):
+        return False
     productodict['_codigo']=codigo
     productos[codigo] = productodict
     archivo_productos = open(os.path.normpath(configuraciones.constantes.base_de_datos_url), 'w')
     json.dump(productos, archivo_productos)
     archivo_productos.close()
+    return True
 
 
 def elimina_producto(producto_a_eliminar=modelos.producto.Producto()):

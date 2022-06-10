@@ -8,7 +8,7 @@ import controladores.caja_resultados
 import controladores.barra_estado as logueador
 
 
-def agregar_producto(barra_estado, tags,nombre,costo,tipo_de_cambio,descripcion,existencias,url,auto,res_busqueda):
+def agregar_producto_tview(barra_estado, tags,nombre,costo,tipo_de_cambio,descripcion,existencias,url,auto,tview_res_busqueda):
     if not es.float_o_int(costo.get()) or not es.float_o_int(tipo_de_cambio.get()):
         logueador.logerror(barra_estado,'Monto no numerico')
         return False
@@ -31,45 +31,37 @@ def agregar_producto(barra_estado, tags,nombre,costo,tipo_de_cambio,descripcion,
     prod.set_urlextra2('url2')
     if not (repositorios.productos.crea_producto(prod)):
         logueador.logerror(barra_estado,'BASE DE DATOS LLENA. NO SE PUDO AGREGAR '+str(prod.get_nombre()))
-    res_busqueda.insert('end',prod.get_nombre())
-    logueador.log(barra_estado,prod.get_nombre()+' ','AGREGADO')
+        return False
+    tview_res_busqueda.insert(parent='', index=tkinter.END, iid=tkinter.END, text='', values=(prod.get_nombre(), prod.get_costo()))
+    tview_res_busqueda.yview_moveto(1)
+    logueador.log(barra_estado,prod.get_nombre()+' ', 'AGREGADO')
     return True
 
 
-def quitar_producto(barra_estado,detalles_tags,detalles_nombre,detalles_costo,
-                    detalles_t_cambio,detalles_descripcion,detalles_existencias,
-                    detalles_url,auto_var,res_busqueda):
-    if not res_busqueda.curselection():
-        logueador.logerror(barra_estado,'Nada selecc.')
+def quitar_producto_tview(barra_estado,tview_res_busqueda):
+    if not tview_res_busqueda.selection():
+        logueador.logerror(barra_estado, 'Nada selecc.')
         return False
-    prod = repositorios.productos.busca_por_nombre(res_busqueda.get(res_busqueda.curselection()))
+    item = tview_res_busqueda.item(tview_res_busqueda.focus())
+    prod = repositorios.productos.busca_por_nombre(item['values'][0])
     if not prod:
         logueador.logerror(barra_estado, 'Prod. no existe')
         return False
     if not repositorios.productos.marca_producto_como_eliminado(prod):
         logueador.logerror(barra_estado, 'No se pudo eliminar')
         return False
-    old_selection=res_busqueda.curselection()
-    res_busqueda.delete(res_busqueda.curselection())
-    res_busqueda.selection_clear(0,'end')
-    res_busqueda.selection_set(old_selection[0])
-    if old_selection[0]==res_busqueda.size():
-        res_busqueda.selection_set(res_busqueda.size()-1)
-    res_busqueda.see('end')
-    logueador.log(barra_estado,prod.get_nombre()+' ','BORRADO')
-    controladores.caja_resultados.presenta_producto(res_busqueda,detalles_tags,detalles_nombre,
-                                                    detalles_costo,detalles_t_cambio,detalles_descripcion,
-                                                    detalles_existencias,detalles_url,auto_var)
+    tview_res_busqueda.delete(tview_res_busqueda.selection()[0])
+    logueador.log(barra_estado, prod.get_nombre()+' ', 'BORRADO')
     return True
 
 
-def modificar_producto(barra_estado,res_busqueda,
+def modificar_producto_tview(barra_estado,tview_res_busqueda,
                        tags,nombre,costo,tipo_de_cambio,
                        descripcion,existencias,url,auto):
-    if not res_busqueda.curselection():
+    if not tview_res_busqueda.selection():
         logueador.logerror(barra_estado,'Nada selecc.')
         return False
-    prod_selec = repositorios.productos.busca_por_nombre(res_busqueda.get(res_busqueda.curselection()))
+    prod_selec = repositorios.productos.busca_por_nombre(tview_res_busqueda.item(tview_res_busqueda.focus())['values'][0])
     if not prod_selec:
         logueador.logerror(barra_estado, 'Producto no existe')
         return False
@@ -96,11 +88,9 @@ def modificar_producto(barra_estado,res_busqueda,
         logueador.logerror(barra_estado,'Ya existe '+str(prod.get_nombre()+'; Elegir otro.'))
         return False
     repositorios.productos.salva_producto(prod)
-    old_selection=res_busqueda.curselection()
-    res_busqueda.delete(res_busqueda.curselection())
-    res_busqueda.selection_clear(0,'end')
-    res_busqueda.insert(old_selection[0],prod.get_nombre())
-    res_busqueda.selection_set(old_selection[0])
+    tview_res_busqueda.item(tview_res_busqueda.selection()[0],
+                            text='',
+                            values=(prod.get_nombre(), prod.get_costo()*prod.get_tipo_de_cambio()))
     logueador.log(barra_estado,'Producto:'+str(prod.get_codigo())+':'+prod_selec.get_nombre()+': MODIFICADO')
 
 
