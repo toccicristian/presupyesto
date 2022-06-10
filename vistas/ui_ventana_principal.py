@@ -20,11 +20,6 @@ def dibuja():
     #   AREA PRESUPUESTO:
     marco_sup = tk.Frame(width='400', height='300')
     marco_lista_presup = tk.Frame(marco_sup)
-    # lista_presup = tk.Listbox(marco_lista_presup, width='150', height='20')
-    # scrollbar_lista_presup = tk.Scrollbar(marco_lista_presup)
-    # lista_presup.config(yscrollcommand=scrollbar_lista_presup.set)
-    # scrollbar_lista_presup.config(command=lista_presup.yview)
-    # implementando treeview
     tview_presup = ttk.Treeview(marco_lista_presup, height=17, column=('c1', 'c2'), show='headings')
     tview_presup.column('# 1', anchor=tk.W, stretch=tk.YES, width='900')
     tview_presup.heading('# 1', text='Producto')
@@ -44,11 +39,6 @@ def dibuja():
     label_busqueda = tk.Label(marco_inf_iz_titulo, text='Búsqueda :')
     entry_busqueda = tk.Entry(marco_inf_iz, width='60')
     marco_inf_iz_res_busqueda = tk.Frame(marco_inf_iz, highlightbackground='black', highlightthickness=framew)
-    # res_busqueda = tk.Listbox(marco_inf_iz_res_busqueda, width='60',exportselection=False)
-    # scrollb_res_busqueda = tk.Scrollbar(marco_inf_iz_res_busqueda, orient='vertical')
-    # res_busqueda.config(yscrollcommand=scrollb_res_busqueda.set)
-    # scrollb_res_busqueda.config(command=res_busqueda.yview)
-    # implementando treeview (res_busqueda):
     tview_res_busqueda = ttk.Treeview(marco_inf_iz_res_busqueda,height=6)
     tview_res_busqueda['columns'] = ('Item', 'Costo')
     tview_res_busqueda.column('#0', width=0, stretch=tk.NO)
@@ -102,26 +92,6 @@ def dibuja():
     marco_inf_cent_titulo2 = tk.Frame(marco_inf_cent, highlightbackground='black', highlightthickness=framew)
     label_basededatosagregaroquitar = tk.Label(marco_inf_cent_titulo2, text='Base de datos')
     marco_inf_cent_botones2 = tk.Frame(marco_inf_cent, highlightbackground='black', highlightthickness=framew)
-    # boton_agregar_a_base_de_datos = tk.Button(marco_inf_cent_botones2, width='3', height='2', text='+',
-    #                                           command=lambda: controladores.botones_basededatos.agregar_producto(
-    #                                               label_barra_de_estado, detalles_tags, detalles_nombre, detalles_costo,
-    #                                               detalles_t_cambio, detalles_descripcion, detalles_existencias,
-    #                                               detalles_url, auto_var, res_busqueda
-    #                                           ))
-    # boton_quitar_de_base_de_datos = tk.Button(marco_inf_cent_botones2, width='3', height='2', text='-',
-    #                                           command=lambda: controladores.botones_basededatos.quitar_producto(
-    #                                               label_barra_de_estado, detalles_tags, detalles_nombre, detalles_costo,
-    #                                               detalles_t_cambio, detalles_descripcion, detalles_existencias,
-    #                                               detalles_url, auto_var, res_busqueda
-    #                                           ))
-    # boton_modificar_de_base_de_datos = tk.Button(marco_inf_cent_botones2, width='3', height='2', text='<',
-    #                                              command=lambda: controladores.botones_basededatos.modificar_producto(
-    #                                                  label_barra_de_estado, res_busqueda, detalles_tags,
-    #                                                  detalles_nombre,
-    #                                                  detalles_costo, detalles_t_cambio, detalles_descripcion,
-    #                                                  detalles_existencias, detalles_url, auto_var
-    #                                              ))
-    # implementando treeview (res_busqueda)
     boton_agregar_a_base_de_datos = tk.Button(marco_inf_cent_botones2, width='3', height='2', text='+',
                                               command=lambda: controladores.botones_basededatos.agregar_producto_tview(
                                                   label_barra_de_estado, detalles_tags, detalles_nombre, detalles_costo,
@@ -147,8 +117,6 @@ def dibuja():
     # region packing-superior
     marco_sup.pack(side='top', fill='x')
     marco_lista_presup.pack(side='left', padx=(10, 0), pady=(10, 10))
-    # lista_presup.pack(side='left', fill='both', padx='0', pady=('0','0'))
-    # scrollbar_lista_presup.pack(side='right', fill='both')
     tview_presup.pack(side='left', fill='both', padx='0', pady=('0', '0'))
     scrollb_presup.pack(side='right', fill='both')
     boton_generar.pack(side='top', padx=(10, 10), pady=(25, 10))
@@ -160,9 +128,6 @@ def dibuja():
     label_busqueda.pack(side='left', padx='10', pady=('10', '0'))
     entry_busqueda.pack(side='top', padx='10', pady=('0', '5'))
     marco_inf_iz_res_busqueda.pack(side='top')
-    # res_busqueda.pack(side='left', padx=('10', '0'), pady=('5', '10'))
-    # scrollb_res_busqueda.pack(side='left', fill='both')
-    # implementando treeview (res_busqueda)
     tview_res_busqueda.pack(side='left', padx=('10', '0'), pady=('5', '10'))
     scrollb_tview_res_busqueda.pack(side='left', fill='both')
     # endregion
@@ -211,13 +176,8 @@ def dibuja():
     # endregion
     label_barra_de_estado.pack(side='top', pady=('5', '0'))
     # region bindeos
-    # entry_busqueda.bind('<Return>',lambda x: controladores.barra_busqueda.busca(entry_busqueda,res_busqueda))
-    # implementando treeview (res_busqueda)
     entry_busqueda.bind('<Return>',
                         lambda x: controladores.barra_busqueda.busca_tview(entry_busqueda, tview_res_busqueda))
-    # res_busqueda.bind('<<ListboxSelect>>', lambda x: controladores.caja_resultados.presenta_producto(
-    #     res_busqueda,detalles_tags,detalles_nombre,detalles_costo,detalles_t_cambio,detalles_descripcion,
-    #     detalles_existencias,detalles_url,auto_var))
     tview_res_busqueda.bind('<<TreeviewSelect>>', lambda x: controladores.caja_resultados.presenta_producto_tview(
         tview_res_busqueda, detalles_tags, detalles_nombre, detalles_costo, detalles_t_cambio, detalles_descripcion,
         detalles_existencias, detalles_url, auto_var))
