@@ -2,6 +2,7 @@ import tkinter
 from tkinter import ttk
 import tkinter as tk
 import controladores.botones_basededatos
+import controladores.botones_presupuesto
 import controladores.barra_busqueda
 import controladores.caja_resultados
 
@@ -12,7 +13,7 @@ def dibuja():
     ventana_principal_minwidth = 1200
     ventana_principal = tk.Tk()
     ventana_principal.minsize(ventana_principal_minwidth, 680)
-
+    ventana_principal.title('PRESUPYESTO')
     marco_inf = tk.Frame(width='300', height='300')
     marco_inf_cent = tk.Frame(marco_inf, highlightbackground='black', highlightthickness=framew)
     label_barra_de_estado = tk.Label(bg='#000fff000', text='- ESTADO -', width='165')
@@ -20,15 +21,21 @@ def dibuja():
     #   AREA PRESUPUESTO:
     marco_sup = tk.Frame(width='400', height='300')
     marco_lista_presup = tk.Frame(marco_sup)
-    tview_presup = ttk.Treeview(marco_lista_presup, height=17, column=('c1', 'c2'), show='headings')
-    tview_presup.column('# 1', anchor=tk.W, stretch=tk.YES, width='900')
-    tview_presup.heading('# 1', text='Producto')
-    tview_presup.column('# 2', anchor=tk.W, stretch=tk.YES, width='200')
-    tview_presup.heading('#2', text='Costo')
+    tview_presu = ttk.Treeview(marco_lista_presup, height=17)
+    tview_presu['columns'] = ('COD','Detalle','Cant.','Costo')
+    tview_presu.column('#0', width=0, stretch=tk.NO)
+    tview_presu.column('COD', anchor=tk.E, stretch=tk.YES, width='100')
+    tview_presu.column('Detalle', anchor=tk.W, stretch=tk.YES, width='700')
+    tview_presu.column('Cant.', anchor=tk.E, stretch=tk.YES, width='50')
+    tview_presu.column('Costo', anchor=tk.E, stretch=tk.YES, width='150')
+    tview_presu.heading('#0',text='',anchor=tk.W)
+    tview_presu.heading('COD',text='COD', anchor=tk.W)
+    tview_presu.heading('Detalle', text='Detalle', anchor=tk.W)
+    tview_presu.heading('Cant.', text='Cant.', anchor=tk.W)
+    tview_presu.heading('Costo', text='Costo', anchor=tk.W)
     scrollb_presup = tk.Scrollbar(marco_lista_presup, orient='vertical')
-    tview_presup.config(yscrollcommand=scrollb_presup.set)
-    scrollb_presup.config(command=tview_presup.yview)
-
+    tview_presu.config(yscrollcommand=scrollb_presup.set)
+    scrollb_presup.config(command=tview_presu.yview)
     boton_generar = tk.Button(marco_sup, text='GENERAR')
 
     #   AREA BD:
@@ -87,8 +94,12 @@ def dibuja():
     marco_inf_cent_titulo1 = tk.Frame(marco_inf_cent, highlightbackground='black', highlightthickness=framew)
     label_presupuestoagregaroquitar = tk.Label(marco_inf_cent_titulo1, text='Presupuesto')
     marco_inf_cent_botones1 = tk.Frame(marco_inf_cent, highlightbackground='black', highlightthickness=framew)
-    boton_agregar_a_presupuesto = tk.Button(marco_inf_cent_botones1, width='5', height='2', text='+')
-    boton_quitar_de_presupuesto = tk.Button(marco_inf_cent_botones1, width='5', height='2', text='-')
+    boton_agregar_a_presupuesto = tk.Button(marco_inf_cent_botones1, width='5', height='2', text='+',
+                                            command=lambda: controladores.botones_presupuesto.agrega_item(
+                                                tview_presu, tview_res_busqueda,label_barra_de_estado))
+    boton_quitar_de_presupuesto = tk.Button(marco_inf_cent_botones1, width='5', height='2', text='-',
+                                            command=lambda: controladores.botones_presupuesto.quita_item(
+                                                tview_presu,label_barra_de_estado))
     marco_inf_cent_titulo2 = tk.Frame(marco_inf_cent, highlightbackground='black', highlightthickness=framew)
     label_basededatosagregaroquitar = tk.Label(marco_inf_cent_titulo2, text='Base de datos')
     marco_inf_cent_botones2 = tk.Frame(marco_inf_cent, highlightbackground='black', highlightthickness=framew)
@@ -116,8 +127,8 @@ def dibuja():
     # endregion
     # region packing-superior
     marco_sup.pack(side='top', fill='x')
-    marco_lista_presup.pack(side='left', padx=(10, 0), pady=(10, 10))
-    tview_presup.pack(side='left', fill='both', padx='0', pady=('0', '0'))
+    marco_lista_presup.pack(side='left', fill='both', expand=tk.YES, padx=(10, 0), pady=(10, 10))
+    tview_presu.pack(side='left', fill='both', expand=tk.YES,padx='0', pady=('0', '0'))
     scrollb_presup.pack(side='right', fill='both')
     boton_generar.pack(side='top', padx=(10, 10), pady=(25, 10))
     # endregion
@@ -174,7 +185,7 @@ def dibuja():
     marco_opciones.pack(side='left', anchor='n', pady=('20', '0'))
     auto_checkbox.pack(side='top')
     # endregion
-    label_barra_de_estado.pack(side='top', pady=('5', '0'))
+    label_barra_de_estado.pack(side='top', fill='x', expand=tk.YES, pady=('5', '0'))
     # region bindeos
     entry_busqueda.bind('<Return>',
                         lambda x: controladores.barra_busqueda.busca_tview(entry_busqueda, tview_res_busqueda))
@@ -184,7 +195,6 @@ def dibuja():
     # endregion
     ventana_principal.mainloop()
 
-# TODO : agregar crear funciones de agregar a presupuesto y agregar esas funciones a los botones
 # TODO : agregar funcion de generar presupuesto y agregar esa funcion al boton generar
 # TODO : IMPLEMENTAR SISTEMA DE PLUGINS
 # TODO : (rediseño mayor, plan lejano) CREAR VENTANA ADMINISTRAR BD
