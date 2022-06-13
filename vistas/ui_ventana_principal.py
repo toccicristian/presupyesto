@@ -5,6 +5,7 @@ import controladores.botones_basededatos
 import controladores.botones_presupuesto
 import controladores.barra_busqueda
 import controladores.caja_resultados
+import controladores.generar_presupuesto as presupuesto
 
 
 def dibuja():
@@ -36,8 +37,8 @@ def dibuja():
     scrollb_presup = tk.Scrollbar(marco_lista_presup, orient='vertical')
     tview_presu.config(yscrollcommand=scrollb_presup.set)
     scrollb_presup.config(command=tview_presu.yview)
-    boton_generar = tk.Button(marco_sup, text='GENERAR')
-
+    boton_generar = tk.Button(marco_sup, text='GENERAR',
+                              command=lambda: presupuesto.generar(tview_presu,label_barra_de_estado))
     #   AREA BD:
     #   BD - BUSQUEDA:
     marco_inf_iz = tk.Frame(marco_inf, width='150', height='300', highlightbackground='black',
