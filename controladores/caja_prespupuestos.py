@@ -4,7 +4,7 @@ import repositorios.productos
 
 
 def inserta_total(tview_presu, total=float(0.0)):
-    tview_presu.insert('', tkinter.END, values=('*', 150 * '*', ' ', ' '))
+    tview_presu.insert('', tkinter.END, values=('*', 73 * '*', ' ', ' '))
     tview_presu.insert('', tkinter.END, values=('*', 'TOTAL '.rjust(30), ' ', round(total, 2)))
 
 
