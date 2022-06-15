@@ -4,6 +4,8 @@ import controladores.barra_estado as logueador
 
 
 def agrega_item(tview_presu, tview_resultados, barra_de_estado):
+    if not tview_resultados.item(tview_resultados.focus())['values']:
+        return False
     prod = repositorios.productos.busca_por_nombre(tview_resultados.item(tview_resultados.focus())['values'][0])
     if not prod:
         logueador.logerror(barra_de_estado, 'No hay un item seleccionado en la caja de búsquedas.')
