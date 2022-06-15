@@ -5,6 +5,8 @@ from fpdf import FPDF
 import configuraciones.constantes as const
 import controladores.barra_estado as logueador
 import utilidades.dinero
+from utilidades.archivos import es_archivo,normpath
+import repositorios.configuracion as config
 
 
 def convierte_tview_a_presu(tview):
@@ -25,8 +27,9 @@ def convierte_tview_a_presu(tview):
 
 def membrete_url():
     for membrete_ext in const.membrete_extensiones:
-        if os.path.isfile(os.path.expanduser(os.path.normpath(const.membrete_url + membrete_ext))):
-            return os.path.expanduser(os.path.normpath(const.membrete_url + membrete_ext))
+        if (es_archivo(config.lee_configuracion().get_membrete_url()) and
+                config.lee_configuracion().get_membrete_url().endswith(membrete_ext)):
+            return config.lee_configuracion().get_membrete_url()
     return False
 
 
@@ -40,12 +43,13 @@ def genera_pdf(datos=None, url='/.'):
     pdf.add_page()
     pdf.set_font("Courier", size=15)
     if membrete_url():
-        pdf.image(membrete_url(), x=const.membrete_pos_x, h=const.membrete_height)
+        pdf.image(config.lee_configuracion().get_membrete_url(),
+                  x=config.lee_configuracion().get_membrete_pos_x(),
+                  h=config.lee_configuracion().get_membrete_altura())
     nlinea = 1
-    for dato_razon_social in [const.razon_social, const.datos_razon_social_linea1, const.datos_razon_social_linea2,
-                              const.datos_razon_social_linea3]:
+    for linea in config.lee_configuracion().get_info():
         pdf.set_font("Courier", size=10)
-        pdf.cell(200, 10, txt=(73 - len(dato_razon_social)) * ' ' + dato_razon_social, ln=nlinea, align='L')
+        pdf.cell(200, 10, txt=(73 - len(linea)) * ' ' + linea, ln=nlinea, align='L')
         nlinea += 1
     pdf.set_font("Courier", size=15)
     pdf.cell(200, 10, txt=fecha, ln=nlinea, align='L')
@@ -57,15 +61,17 @@ def genera_pdf(datos=None, url='/.'):
         pdf.cell(200, 10, txt=linea, ln=nlinea, align='L')
         nlinea += 1
     pdf.set_font("Courier", size=8)
-    pdf.cell(200, 10, txt=const.nota_al_pie + ' ' * 24, ln=nlinea, align='R')
-    pdf.output(os.path.expanduser(os.path.normpath(url)))
+    pdf.cell(200, 10, txt=config.lee_configuracion().get_nota_al_pie() + ' ' * 24, ln=nlinea, align='R')
+    pdf.output(normpath(url))
     return True
 
 
 def generar(tview, barra_estado):
-    url_destino = tkinter.filedialog.asksaveasfile(mode='w', filetypes=[('Presupuesto en PDF', '*.pdf')]).name
-    if not genera_pdf(convierte_tview_a_presu(tview), url_destino):
+    url_destino = tkinter.filedialog.asksaveasfile(mode='w', filetypes=[('Presupuesto en PDF', '*.pdf')])
+    if url_destino is None:
+        return False
+    if not genera_pdf(convierte_tview_a_presu(tview), url_destino.name):
         logueador.logerror(barra_estado, 'No se pudo generar un presupuesto vacío o el dir. destino no existe.')
         return False
-    logueador.log(barra_estado, 'Presupuesto ' + str(os.path.split(url_destino)), 'GENERADO')
+    logueador.log(barra_estado, 'Presupuesto ' + str(os.path.split(url_destino.name)), 'GENERADO')
     return True

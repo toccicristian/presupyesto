@@ -22,7 +22,7 @@ def agregar_producto_tview(barra_estado, tags,nombre,costo,tipo_de_cambio,descri
     for tag in tags.get().split(','):
         prod.add_tag(str(tag.upper()))
     prod.set_nombre(str(nombre.get()))
-    prod.set_descripcion(str(descripcion.get('1.0','end')))
+    prod.set_descripcion(str(descripcion.get('1.0', 'end-1c')))
     prod.set_costo(float(costo.get()))
     prod.set_ultima_actualizacion_de_costo(str(datetime.date.today().strftime('%Y%m%d%H%M')))
     prod.set_tipo_de_cambio(float(tipo_de_cambio.get()))
