@@ -1,5 +1,6 @@
 configuracion_url = 'recursos/config.json'
 base_de_datos_url = 'recursos/db.json'
+plugins_dir = 'plugins_dir'
 codigo_de_inicio = '0000000'
 config_logo_preview_size=(0, 0)
 membrete_height_default = 32
