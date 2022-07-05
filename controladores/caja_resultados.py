@@ -14,9 +14,10 @@ def presenta_producto_tview(tview_res_busqueda, detalles_tags, detalles_nombre,
     producto = repositorios.productos.busca_por_nombre(tview_res_busqueda.item(tview_res_busqueda.focus())['values'][0])
     if not producto:
         return False
-    for plugin in plugins:
-        if producto.get_automatizado() and urlutils.urlnorm(producto.get_producto_url()).startswith(plugin.weburl):
-            producto = plugin.correr(producto)
+    if plugins and producto.get_automatizado():
+        for plugin in plugins:
+            if urlutils.urlnorm(producto.get_producto_url()).startswith(plugin.weburl):
+                producto = plugin.correr(producto)
     detalles_tags.delete(0, 'end')
     tagline = ''
     for tag in producto.get_tags():

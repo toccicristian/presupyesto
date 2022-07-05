@@ -17,13 +17,14 @@ def salva_producto(producto=modelos.producto.Producto()):
 
 
 def crea_producto(producto=modelos.producto.Producto()):
+    productos=dict()
+    codigo = configuraciones.constantes.codigo_de_inicio
     productodict = producto.__dict__
-    if not os.path.isfile(os.path.normpath(configuraciones.constantes.base_de_datos_url)):
-        return False
-    archivo_productos = open(os.path.normpath(configuraciones.constantes.base_de_datos_url),'r')
-    productos = json.load(archivo_productos)
-    archivo_productos.close()
-    codigo=str(int(max(productos))+1).zfill(len(configuraciones.constantes.codigo_de_inicio))
+    if os.path.isfile(os.path.normpath(configuraciones.constantes.base_de_datos_url)):
+        archivo_productos = open(os.path.normpath(configuraciones.constantes.base_de_datos_url),'r')
+        productos = json.load(archivo_productos)
+        archivo_productos.close()
+        codigo=str(int(max(productos))+1).zfill(len(configuraciones.constantes.codigo_de_inicio))
     if int(codigo) > int('9'*len(configuraciones.constantes.codigo_de_inicio)):
         return False
     productodict['_codigo']=codigo
@@ -62,6 +63,8 @@ def marca_producto_como_eliminado(producto_a_marcar=modelos.producto.Producto())
 
 
 def busca_productos_por_tag_y_conteniendo_en_nombre(cadena=str()):
+    if not os.path.isfile(os.path.normpath(configuraciones.constantes.base_de_datos_url)):
+        return list()
     archivo_productos = open(os.path.normpath(configuraciones.constantes.base_de_datos_url))
     productos = json.load(archivo_productos)
     resultado_lista_de_productos=list()
@@ -77,6 +80,8 @@ def busca_productos_por_tag_y_conteniendo_en_nombre(cadena=str()):
 
 
 def busca_productos_conteniendo_en_nombre(nombre=str()):
+    if not os.path.isfile(os.path.normpath(configuraciones.constantes.base_de_datos_url)):
+        return list()
     archivo_productos = open(os.path.normpath(configuraciones.constantes.base_de_datos_url))
     productos = json.load(archivo_productos)
     resultado_lista_de_productos=list()
@@ -90,6 +95,8 @@ def busca_productos_conteniendo_en_nombre(nombre=str()):
 
 
 def busca_por_nombre(nombre=str()):
+    if not os.path.isfile(os.path.normpath(configuraciones.constantes.base_de_datos_url)):
+        return False
     archivo_productos = open(os.path.normpath(configuraciones.constantes.base_de_datos_url))
     productos = json.load(archivo_productos)
     for codigo in productos:
@@ -101,6 +108,8 @@ def busca_por_nombre(nombre=str()):
 
 
 def busca_por_codigo(codigo_ingresado=str()):
+    if not os.path.isfile(os.path.normpath(configuraciones.constantes.base_de_datos_url)):
+        return False
     archivo_productos = open(os.path.normpath(configuraciones.constantes.base_de_datos_url))
     productos = json.load(archivo_productos)
     for codigo in productos:
@@ -112,6 +121,8 @@ def busca_por_codigo(codigo_ingresado=str()):
 
 
 def busca_por_tags(tags_ingresadas=str()):
+    if not os.path.isfile(os.path.normpath(configuraciones.constantes.base_de_datos_url)):
+        return list()
     archivo_productos = open(os.path.normpath(configuraciones.constantes.base_de_datos_url))
     productos = json.load(archivo_productos)
     resultado = list()

@@ -32,7 +32,7 @@ def agregar_producto_tview(barra_estado, tags,nombre,costo,tipo_de_cambio,descri
     if not (repositorios.productos.crea_producto(prod)):
         logueador.logerror(barra_estado,'BASE DE DATOS LLENA. NO SE PUDO AGREGAR '+str(prod.get_nombre()))
         return False
-    tview_res_busqueda.insert(parent='', index=tkinter.END, iid=tkinter.END, text='', values=(prod.get_nombre(), prod.get_costo()))
+    tview_res_busqueda.insert(parent='', index=tkinter.END, iid=len(tview_res_busqueda.get_children()), text='', values=(prod.get_nombre(), prod.get_costo()))
     tview_res_busqueda.yview_moveto(1)
     logueador.log(barra_estado,prod.get_nombre()+' ', 'AGREGADO')
     return True
