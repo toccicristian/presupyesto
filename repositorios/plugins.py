@@ -4,6 +4,11 @@ import os
 import importlib
 import modelos.modulo
 
+# imports requeridos por algunos futuros plugins:
+import requests
+from bs4 import BeautifulSoup as bs
+import modelos.producto
+
 
 def lista_modulos(mod_dir):
     if not os.path.isdir(os.path.expanduser(os.path.normpath(mod_dir))):
