@@ -24,7 +24,9 @@ def crea_producto(producto=modelos.producto.Producto()):
         archivo_productos = open(os.path.normpath(configuraciones.constantes.base_de_datos_url),'r')
         productos = json.load(archivo_productos)
         archivo_productos.close()
-        codigo=str(int(max(productos))+1).zfill(len(configuraciones.constantes.codigo_de_inicio))
+        codigo=configuraciones.constantes.codigo_de_inicio
+        if len(productos) > 0:
+            codigo=str(int(max(productos))+1).zfill(len(configuraciones.constantes.codigo_de_inicio))
     if int(codigo) > int('9'*len(configuraciones.constantes.codigo_de_inicio)):
         return False
     productodict['_codigo']=codigo
@@ -150,8 +152,9 @@ def barrer_borrados():
                 cod = str(int(cod)+1).zfill(len(configuraciones.constantes.codigo_de_inicio))
             del prod
     archivo_productos = open(os.path.normpath(configuraciones.constantes.base_de_datos_url), 'w')
-    if productos_nueva:
-        json.dump(productos_nueva,archivo_productos)
+    # if productos_nueva:
+    #     json.dump(productos_nueva,archivo_productos)
+    json.dump(productos_nueva, archivo_productos)
     archivo_productos.close()
 
 
