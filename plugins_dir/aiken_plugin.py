@@ -14,7 +14,7 @@ def correr(producto=modelos.producto.Producto()):
     if not producto.get_producto_url().startswith('https://'):
         producto.set_producto_url('https://' + producto.get_producto_url())
     try:
-        req = requests.get(producto.get_producto_url())
+        req = requests.get(producto.get_producto_url(), verify=False)
     except requests.exceptions.ConnectionError:
         producto.set_existencias(' - OFFLINE -')
         return producto
