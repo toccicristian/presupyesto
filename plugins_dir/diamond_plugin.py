@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup as bs
 import modelos.producto
 
 weburl = 'https://www.diamondcomputacion.com.ar'
+verify_ssl=True
 
 
 def busca_metas_por_id(sopa, id=''):
@@ -15,26 +16,6 @@ def busca_metas_por_id(sopa, id=''):
     return resultados
 
 
-"""
-def test():
-    try:
-        req = requests.get('https://diamondcomputacion.com.ar/product-detail/550245502990')
-    except requests.exceptions.ConnectionError:
-        print(' - OFFLINE -')
-        return False
-    sopa = bs(req.text, 'lxml')
-    if 'content' not in busca_metas_por_id(sopa, id='descripcionWp')[0].attrs.keys():
-        return False
-    nombre=busca_metas_por_id(sopa, id='tituloWp')[0].attrs['content']
-    # nombre=sopa.findAll('meta', attrs={'id','tituloWp'})[0].attrs['content']
-    precio=busca_metas_por_id(sopa, id='descripcionWp')[0].attrs['content']
-    # precio=sopa.findAll('meta', attrs={'id','descripcionWp'})[0].attrs['content']
-    urlextra=busca_metas_por_id(sopa, id='imagenWp')[0].attrs['content'].split('?')[0]
-    # urlextra=sopa.findAll('meta', attrs={'id','imagenWp'})[0].attrs['content']
-    print(f'{nombre.ljust(50)}{precio.rjust(15)}\nUrlImagen:{urlextra}')
-    return True
-"""
-
 def correr(producto=modelos.producto.Producto()):
     for elemento in ['view-source:', 'http://view-source:', 'https://view-source:']:
         if producto.get_producto_url().startswith(elemento):
@@ -42,7 +23,7 @@ def correr(producto=modelos.producto.Producto()):
     if not producto.get_producto_url().startswith('https://'):
         producto.set_producto_url('https://' + producto.get_producto_url())
     try:
-        req = requests.get(producto.get_producto_url())
+        req = requests.get(producto.get_producto_url(),verify=verify_ssl)
     except requests.exceptions.ConnectionError:
         producto.set_existencias(' - OFFLINE -')
         return producto
