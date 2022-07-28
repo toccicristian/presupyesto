@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup as bs
 import modelos.producto
 
 weburl = 'https://www.aikencomputacion.com.ar'
+verify_ssl=True
 
 
 def correr(producto=modelos.producto.Producto()):
@@ -14,7 +15,7 @@ def correr(producto=modelos.producto.Producto()):
     if not producto.get_producto_url().startswith('https://'):
         producto.set_producto_url('https://' + producto.get_producto_url())
     try:
-        req = requests.get(producto.get_producto_url(), verify=False)
+        req = requests.get(producto.get_producto_url(), verify=verify_ssl)
     except requests.exceptions.ConnectionError:
         producto.set_existencias(' - OFFLINE -')
         return producto
