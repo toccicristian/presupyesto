@@ -24,7 +24,7 @@ def correr(producto=modelos.producto.Producto()):
         producto.set_existencias(' - OFFLINE -')
         return producto
     producto.set_nombre(str( sopa.findAll('span', attrs={'class' : 'vtex-breadcrumb-1-x-term ph2 c-on-base'})[0].text ).strip())
-    producto.set_costo(float( print(sopa.findAll('meta', attrs={'property': 'product:price:amount'})[0].get('content')) ))
+    producto.set_costo(float( sopa.findAll('meta', attrs={'property': 'product:price:amount'})[0].get('content') ))
     producto.set_existencias('CONSULTAR DISP. 6061-5749')
     producto.set_urlextra( sopa.findAll('meta', attrs={'property':'og:image'})[0].get('content').split('?')[0] )
     return producto
