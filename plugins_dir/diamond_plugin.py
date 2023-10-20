@@ -8,14 +8,6 @@ weburl = 'https://www.diamondcomputacion.com.ar'
 verify_ssl=True
 
 
-def busca_metas_por_id(sopa, id=''):
-    resultados=[]
-    for meta in sopa.findAll('meta'):
-        if 'id=\"'+id+'\"' in str(meta).split():
-            resultados.append(meta)
-    return resultados
-
-
 def correr(producto=modelos.producto.Producto()):
     for elemento in ['view-source:', 'http://view-source:', 'https://view-source:']:
         if producto.get_producto_url().startswith(elemento):
@@ -28,11 +20,11 @@ def correr(producto=modelos.producto.Producto()):
         producto.set_existencias(' - OFFLINE -')
         return producto
     sopa = bs(req.text, 'lxml')
-    if 'content' not in busca_metas_por_id(sopa, id='descripcionWp')[0].attrs.keys():
+    if len(sopa.findAll('meta', attrs={'property': 'product:price:amount'}))==0:
         producto.set_existencias(' - OFFLINE -')
         return producto
-    producto.set_nombre(str(busca_metas_por_id(sopa,id='tituloWp')[0].attrs['content']).strip())
-    producto.set_costo(float(busca_metas_por_id(sopa,id='descripcionWp')[0].attrs['content'].lstrip('Total: $')))
+    producto.set_nombre(str( sopa.findAll('span', attrs={'class' : 'vtex-breadcrumb-1-x-term ph2 c-on-base'})[0].text ).strip())
+    producto.set_costo(float( print(sopa.findAll('meta', attrs={'property': 'product:price:amount'})[0].get('content')) ))
     producto.set_existencias('CONSULTAR DISP. 6061-5749')
-    producto.set_urlextra(busca_metas_por_id(sopa,id='imagenWp')[0].attrs['content'].strip().split('?')[0])
+    producto.set_urlextra( sopa.findAll('meta', attrs={'property':'og:image'})[0].get('content').split('?')[0] )
     return producto
