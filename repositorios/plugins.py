@@ -37,4 +37,5 @@ def test_importar():
     for plugin_importado in importar(plugins_dir):
         plugin_importado.correr()
 
-# test_importar()
+
+#test_importar()
