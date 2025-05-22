@@ -7,7 +7,6 @@ import modelos.producto
 weburl = 'https://www.aikencomputacion.com.ar'
 verify_ssl=True
 
-
 def correr(producto=modelos.producto.Producto()):
     for elemento in ['view-source:', 'http://view-source:', 'https://view-source:']:
         if producto.get_producto_url().startswith(elemento):
