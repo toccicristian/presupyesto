@@ -12,7 +12,7 @@ import repositorios.configuracion as config
 def convierte_tview_a_presu(tview):
     presu = list()
     for item in tview.get_children():
-        detalle = tview.item(item)['values'][1]
+        detalle = str(tview.item(item)['values'][1]).encode('latin-1','ignore').decode('latin-1')
         cantidad = tview.item(item)['values'][2]
         costo = ''
         separador = ''
