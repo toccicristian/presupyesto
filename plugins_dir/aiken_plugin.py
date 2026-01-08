@@ -24,7 +24,8 @@ def correr(producto=modelos.producto.Producto()):
         return producto
     producto.set_nombre(sopa.find('div', attrs={'id': 'tab1'}).text.strip())
     if sopa.find('h3', attrs={'class': 'product-price'}) is not None:
-        producto.set_costo(float(sopa.find('h3', attrs={'class': 'product-price'}).text.strip().lstrip('$ ')))
+        if len([p for p in [precios for precios in sopa.find('div', attrs={'class': 'product-details'}).find_all('h4')] if len(p.text.split("$"))>1])>0:
+            producto.set_costo(float([p for p in [precios for precios in sopa.find('div', attrs={'class': 'product-details'}).find_all('h4')] if len(p.text.split("$"))>1][0].text.split("$")[1].strip()))
     for i in range(1, 11):
         if sopa.find('span', attrs={'class': 'stock_color_' + str(i) + ' product-available'}) is not None:
             producto.set_existencias(
