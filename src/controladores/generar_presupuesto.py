@@ -1,5 +1,6 @@
 import os
 import datetime
+import textwrap
 import tkinter.filedialog
 from fpdf import FPDF
 import configuraciones.constantes as const
@@ -12,16 +13,18 @@ import repositorios.configuracion as config
 def convierte_tview_a_presu(tview):
     presu = list()
     for item in tview.get_children():
-        detalle = str(tview.item(item)['values'][1]).encode('latin-1','ignore').decode('latin-1')
+        detalle = textwrap.fill((tview.item(item)['values'][1]).encode('latin-1','ignore').decode('latin-1'),const.ANCHO_DE_DETALLE_EN_CARACTERES)
+        detalleLista = textwrap.fill((tview.item(item)['values'][1]).encode('latin-1','ignore').decode('latin-1'),const.ANCHO_DE_DETALLE_EN_CARACTERES).split("\n")
         cantidad = tview.item(item)['values'][2]
         costo = ''
         separador = ''
         if utilidades.dinero.es_float(str(tview.item(item)['values'][3])):
             costo = str(utilidades.dinero.float_a_dinero(float(tview.item(item)['values'][3]))).rjust(14)
             separador = ' : '
-        presu.append(str(detalle).ljust(50) + separador +
-                     str(cantidad).rjust(3) + separador +
-                     costo)
+            for linea in detalleLista[:-1]:
+                presu.append(str(linea).ljust(50))
+
+            presu.append(str(detalleLista[-1]).ljust(50) + separador + str(cantidad).rjust(3) + separador + costo)
     return presu
 
 

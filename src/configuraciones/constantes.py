@@ -6,3 +6,4 @@ config_logo_preview_size=(0, 0)
 membrete_height_default = 32
 membrete_pos_x_default = 134
 membrete_extensiones = ['.png']
+ANCHO_DE_DETALLE_EN_CARACTERES = 45
